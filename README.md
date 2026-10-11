@@ -1,21 +1,30 @@
-# PlayGTA5 browser experiment
+# PlayGTA5 browser project
 
-This is the personal repository created for a future browser-hosted version of the local PlayGTA5 port.
+Personal project for a browser-hosted version of the existing PlayGTA5 port.
 
-## Current status
+## Required deployment target
 
-**Not playable from GitHub Pages yet.** This repository contains no game snapshot, no deployed site, and no cloud save backend. It does not include private save files.
+The finished version must run independently of the owner's Mac:
 
-The existing local install is about 20 GiB across 12,482 files. GitHub Pages has a 1 GiB published-site limit and a soft 100 GiB/month bandwidth limit. Its static hosting cannot persist a player's Story Mode writes to the server. GitHub Codespaces is a development environment with monthly included quotas (Free personal accounts: 120 core-hours and 15 GB-month storage); it is not a persistent game-hosting service.
+- no local server, computer, files, or browser profile may be needed after deployment;
+- game delivery, web frontend, and cross-device save service must be GitHub-hosted;
+- each player's saves must be private and isolated, with safe synchronization across devices;
+- never expose the owner's current save in the public repository.
 
-References: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) · [included usage by plan](https://docs.github.com/en/billing/reference/product-usage-included).
+**This target is not implemented yet.** There is no playable GitHub Pages site or cloud save service in this repository.
 
-## Save status
+## Current technical limits
 
-The local game now mirrors native save files to the Mac at `~/Games/PlayGTA5/saves` and to IndexedDB. On the tested Brave origin, `navigator.storage.persist()` was denied, so IndexedDB alone is best-effort. The Mac-local API is not reachable from another computer.
+The local game snapshot is about 20 GiB across 12,482 files. GitHub Pages has a 1 GiB published-site limit, so the full snapshot cannot be published as a Pages site. Pages is static hosting and cannot itself accept authenticated Story Mode save writes. GitHub Codespaces is a development environment, not an always-on game host.
 
-A true cross-device save needs a separate authenticated cloud backend. A public shared save would let visitors overwrite or inspect one another's progress, so this project will require user-scoped sync before any public game launch.
+The previous Vercel deployment was disabled with HTTP 402 after the approximately 21 GiB deployment exceeded that account's 10 GiB Hobby deployment-storage allowance. Cloudflare was not signed in during the latest deployment check. No other asset host or persistent save backend is configured.
 
-## Assets
+A GitHub-only design still needs a viable GitHub asset-delivery path for the game data and a secure, user-scoped save-write architecture. A static Pages frontend alone cannot provide both. Until these are implemented and tested, this repository does not provide a working game link.
 
-Game binaries and user save data are intentionally not included in this repository. The game snapshot stays in the existing local installation.
+References: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) · [GitHub included usage by plan](https://docs.github.com/en/billing/reference/product-usage-included).
+
+## Local installation and saves
+
+The existing local Mac install is separate from this repository. Its launcher and Mac-local save mirror are useful for local play, but the finished public deployment must not depend on them. The local Brave IndexedDB persistence request was denied, so browser storage alone is best-effort.
+
+No game binaries, native save files, browser data, or private save hashes are stored in this repository. See [DEPLOYMENT-STATUS.md](DEPLOYMENT-STATUS.md) for the latest verified status.
